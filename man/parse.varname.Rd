@@ -17,5 +17,5 @@ This is a helper function from the \code{rjags} library in order to parse the st
 "a" or "a[n,p:q,r]". See the package \code{rjags} for more details.
 }
 \references{
-\insertRef{rjags}{BayesCACE}
+\insertRef{plummer2021rjags}{BayesCACE}
 }

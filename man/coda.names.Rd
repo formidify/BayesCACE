@@ -19,5 +19,5 @@ This is a helper function from the \code{rjags} library in order to get the name
 of a node array. See the package \code{rjags} for more details.
 }
 \references{
-\insertRef{rjags}{BayesCACE}
+\insertRef{plummer2021rjags}{BayesCACE}
 }

@@ -25,13 +25,13 @@ cace.meta.c(
 containing multiple rows referring to multiple studies in a meta-analysis.}
 
 \item{param}{a character string vector indicating the parameters to be tracked and estimated. 
-By default the following parameters (see \code{details}) are included: \eqn{\theta^{\text{CACE}}} 
+By default the following parameters (see \code{details}) are included: \eqn{\theta^{\mathrm{CACE}}} 
 (\code{CACE}), \eqn{E(u_{i1})} (\code{u1out}), \eqn{E(v_{i1})} (\code{v1out}), \eqn{E(s_{i1})} (\code{s1out}), 
 \eqn{E(b_{i1})} (\code{b1out}), \eqn{\pi_a} (\code{pia}), \eqn{\pi_n} (\code{pin}), and 
 \eqn{\pi_c=1-\pi_a-\pi_n} (\code{pic}). 
-Users can modify the string vector to only include parameters of interest besides \eqn{\theta^{\text{CACE}}}.}
+Users can modify the string vector to only include parameters of interest besides \eqn{\theta^{\mathrm{CACE}}}.}
 
-\item{prior.type}{the default priors are used by the default assignment \code{prior.type="default"}.
+\item{prior.type}{the default priors are used by the default assignment \code{prior.type='default'}.
 Like the function \code{\link{cace.study}}, weakly informative priors \eqn{\alpha_n, \alpha_a \sim 
 N(0, 2.5^2)} and \eqn{\alpha_s, \alpha_b, \alpha_u, \alpha_v \sim N(0, 2^2)} are assigned to the 
 means of these transformed parameters:
@@ -41,7 +41,7 @@ where \eqn{n_i=\alpha_n+\delta_{in}}, \eqn{a_i=\alpha_a+\delta_{ia}}, \eqn{logit
 and \eqn{probit(v_{i1})=\alpha_v + \delta_{iv}}. 
 Alternatively, this function allows users to specify their own prior distributions by saving a separate 
 \code{R} file \code{prior.meta.R} under the same directory with the model file, and assigning the argument 
-\code{prior.type = "custom"}.
+\code{prior.type = 'custom'}.
 Users can modify the above customized file \code{prior.meta.R} to assign their preferred prior 
 distributions. Note that same as the function \code{\link{cace.study}}, the function cannot
 combine the default priors with partial user-defined prior distributions. Thus users need to 
@@ -68,18 +68,20 @@ occurs and the model continues running by forcing \code{delta.n = TRUE} and \cod
 
 \item{n.chains}{number of chains. Default to \code{3}.}
 
-\item{n.thin}{thinning rate, must be a positive integer. Default to \code{max(1,floor((n.iter-n.burnin)/100000))}.}
+\item{n.thin}{thinning rate, must be a positive integer. 
+
+Default to \code{max(1,floor((n.iter-n.burnin)/100000))}.}
 
 \item{conv.diag}{whether or not to show convergence diagnostics. Default to \code{FALSE}.}
 
 \item{mcmc.samples}{whether to include JAGS samples in the final output. Default to \code{FALSE}.}
 
 \item{study.specific}{a logical value indicating whether to calculate the study-specific 
-\eqn{\theta^{\text{CACE}}_i}. If \code{TRUE}, the model will first check the logical status of arguments 
+\eqn{\theta^{\mathrm{CACE}}_i}. If \code{TRUE}, the model will first check the logical status of arguments 
 \code{delta.u} and \code{delta.v}. If both are \code{FALSE}, meaning that neither response rate \eqn{u_{i1}} 
-or \eqn{v_{i1}} is modeled with a random effect, then the study-specific \eqn{\theta^{\text{CACE}}_i} is 
+or \eqn{v_{i1}} is modeled with a random effect, then the study-specific \eqn{\theta^{\mathrm{CACE}}_i} is 
 the same across studies. The function gives a warning and continues by making \code{study.specific = FALSE}. 
-Otherwise, the study-specific \eqn{\theta^{\text{CACE}}_i} are estimated and saved as the parameter \code{cacei}.}
+Otherwise, the study-specific \eqn{\theta^{\mathrm{CACE}}_i} are estimated and saved as the parameter \code{cacei}.}
 }
 \value{
 It returns a model object of class \code{cace.Bayes}
@@ -104,7 +106,9 @@ out.meta.c$DIC
 }
 \references{
 \insertRef{zhou2019bayesian}{BayesCACE}
+
 \insertRef{lunn2012bugs}{BayesCACE}
+
 \insertRef{zeger1988models}{BayesCACE}
 }
 \seealso{

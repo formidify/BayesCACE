@@ -1,7 +1,7 @@
 Package: BayesCACE
 Type: Package
 Title: Bayesian Model for CACE Analysis
-Version: 1.0
+Version: 1.1
 Date: 2021-11-01
 Authors@R:
     c(person(given = "Jinhui",
@@ -24,7 +24,7 @@ Authors@R:
 Depends: R (>= 3.5.0), rjags (>= 4-6)
 Imports: coda, Rdpack, grDevices, forestplot, metafor, lme4
 SystemRequirements: JAGS 4.x.y (http://mcmc-jags.sourceforge.net)
-Description: Performs Complier Average Causal Effect analysis on either a single study or meta-analysis of datasets with binary outcomes using the Bayesian methods proposed in Zhou et al. (2019) <doi:10.1111/biom.13028> and Zhou et al. (2021) <doi:10.1080/01621459.2021.1900859>.
+Description: Performs CACE (Complier Average Causal Effect analysis) on either a single study or meta-analysis of datasets with binary outcomes, using either complete or incomplete noncompliance information. Our package implements the Bayesian methods proposed in Zhou et al. (2019) <doi:10.1111/biom.13028> and Zhou et al. (2021) <doi:10.1080/01621459.2021.1900859>.
 License: GPL (>= 2)
 NeedsCompilation: no
 RoxygenNote: 7.1.2

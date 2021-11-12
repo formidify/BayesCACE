@@ -8,21 +8,22 @@
 #' containing either one row of observations for a single study, or multiple rows referring 
 #' to multiple studies in a meta-analysis. 
 #' @param param a character string vector indicating the parameters to be tracked and estimated. 
-#' By default all parameters in the model (see \code{details}) are included: \eqn{\theta^{\text{CACE}}} 
+#' By default all parameters in the model (see \code{details}) are included: \eqn{\theta^{\mathrm{CACE}}} 
 #' (\code{CACE}), \eqn{u_1} (\code{u1}), \eqn{v_1} (\code{v1}), \eqn{s_1} (\code{s1}), \eqn{b_1} (\code{b1}), 
 #' \eqn{\pi_a} (\code{pi.a}), \eqn{\pi_n} (\code{pi.n}), and \eqn{\pi_c=1-\pi_a-\pi_n} (\code{pi.c}). 
 #' Users can modify the string vector to only include parameters of interest besides 
-#' \eqn{\theta^{\text{CACE}}}. 
-#' @param prior.type the default priors are used by the default assignment \code{prior.type="default"}.
+#' \eqn{\theta^{\mathrm{CACE}}}. 
+#' @param prior.type the default priors are used by the default assignment \code{prior.type='default'}.
 #' They are assigned to the transformed scale of the following parameters:
 #' \eqn{\pi_{n}=\frac{\exp(n)}{1+\exp(n)+\exp(a)}}, \eqn{\pi_{a}=\frac{\exp(a)}{1+\exp(n)+\exp(a)}}, 
 #' \eqn{{logit}(s_1)=\alpha_s}, \eqn{{logit}(b_1)=\alpha_b}, \eqn{{probit}(u_1)=\alpha_u},
-#' and \eqn{{probit}(v_1)=\alpha_v}, where \eqn{n, a \sim N(0, 2.5^2)} and \eqn{\alpha_s, \alpha_b,
-#' \alpha_u, \alpha_v \sim N(0, 2^2)}. 
+#' and \eqn{{probit}(v_1)=\alpha_v}, where \eqn{n, a \sim N(0, 2.5^2)} and 
+#'
+#' \eqn{\alpha_s, \alpha_b, \alpha_u, \alpha_v \sim N(0, 2^2)}. 
 #' Alternatively, users can specify their own prior distributions for all parameters, 
 #' and save them as a file \code{prior.study.R} under the same directory with the model 
-#' function. By assigning \code{prior.type = "custom"}, the function calls the user-defined 
-#' text string as the priors. See example in `Details'. 
+#' function. By assigning \code{prior.type = 'custom'}, the function calls the user-defined 
+#' text string as the priors. See example in \code{details}. 
 #' Note that if users choose the customized priors, the pre-defined \code{prior.study.R} 
 #' must include distributions for all parameters. The function cannot combine the default 
 #' priors with partial user-defined prior distributions. 
@@ -30,7 +31,7 @@
 #' the effect size estimates. The default is \code{3}.
 #' @param n.adapt the number of iterations for adaptation in Markov chain Monte Carlo (MCMC) algorithm; 
 #' it is used to maximize the sampling efficiency. 
-#' The default is 1,000. If a warning "adaptation incomplete" appears, users may increase 
+#' The default is \code{1,000}. If a warning "adaptation incomplete" appears, users may increase 
 #' \code{n.adapt}. This argument and the following \code{n.iter}, \code{n.burnin}, \code{n.chains},
 #' \code{n.thin} are passed to the functions in R package \code{rjags}. 
 #' @param n.iter the number of iterations of each MCMC chain. 
@@ -56,13 +57,13 @@
 #' for further model diagnostics. 
 #' @param two.step a logical value indicating whether to conduct a two-step meta-analysis. 
 #' If \code{two.step = TRUE}, the posterior mean and standard deviation of study-specific 
-#' \eqn{\theta^{\text{CACE}}_i} are used to perform a standard meta-analysis, using the R package \code{metafor}. 
+#' \eqn{\theta^{\mathrm{CACE}}_i} are used to perform a standard meta-analysis, using the R package \code{metafor}. 
 #' @param method the method used in meta-analysis if \code{two.step = TRUE}. The default estimation 
 #' method is the REML (restricted maximum-likelihood estimator) method for the random-effects 
 #' model. Users can change the argument \code{method} to obtain different meta-analysis 
 #' estimators from either a random-effects model or a fixed-effect model, e.g., 
-#' \code{method = "DL"} refers to the DerSimonian--Laird estimator, 
-#' \code{method = "HE"} returns the Hedges estimator, and \code{method = "HS"} gives the Hunter--Schmidt 
+#' \code{method = 'DL'} refers to the DerSimonian--Laird estimator, 
+#' \code{method = 'HE'} returns the Hedges estimator, and \code{method = 'HS'} gives the Hunter--Schmidt 
 #' estimator.  More details are available from the documentation of the function \code{metafor::rma}. 
 #' If the input data include only one study, the meta-analysis result is just the same as 
 #' the result from the single study. 
@@ -71,17 +72,18 @@
 #' The likelihood \deqn{\log L({\boldsymbol{\beta}}) = N_{000}\log\{\pi_{c}(1-v_1)+\pi_{n}(1-s_1)\}+N_{001}
 #' \log(\pi_{c}v_1+\pi_{n}s_1)+N_{010}\log\{{\pi}_{a}(1-b_1)\}}
 #' \deqn{+ N_{011}\log\{\pi_{a}b_1\}+ N_{100}
-#' \log\{\pi_{n}(1-s_1)\}+N_{101}\log({\pi}_{n}s_1) + N_{110}\log\{(\pi_{c}(1-u_1)+\pi_{a}(1-b_1)\}+
-#' {N_{111}\log(\pi_{c}u_1+\pi_{a}b_1)} + constant}. If the input \code{data} includes more than one study, the study-specific CACEs will be 
+#' \log\{\pi_{n}(1-s_1)\}+N_{101}\log({\pi}_{n}s_1) + N_{110}\log\{(\pi_{c}(1-u_1)}
+#' \deqn{+ \pi_{a}(1-b_1)\}+{N_{111}\log(\pi_{c}u_1+\pi_{a}b_1)} + constant}. 
+#' If the input \code{data} includes more than one study, the study-specific CACEs will be 
 #' estimated by retrieving data row by row.
-#' One exmaple of the \code{prior.study.R} file if using \code{prior.type = "custom"}:
-#' \preformatted{prior.study <- function(prior.type = "custom") {
-#' string2 <- "n ~ dnorm(0, 0.01) 
+#' One exmaple of the \code{prior.study.R} file if using \code{prior.type = 'custom'}:
+#' \preformatted{prior.study <- function(prior.type = 'custom') {
+#' string2 <- 'n ~ dnorm(0, 0.01) 
 #'   a ~ dnorm(0, 0.01) 
 #'   alpha.s ~ dnorm(0, 0.01) 
 #'   alpha.b ~ dnorm(0, 0.01) 
 #'   alpha.u ~ dnorm(0, 0.01) 
-#'   alpha.v ~ dnorm(0, 0.01)"
+#'   alpha.v ~ dnorm(0, 0.01)'
 #' return(string2)}
 #' }
 #' By default, the function \code{cace.study()} returns a list  
@@ -100,7 +102,7 @@
 #' set.seed(123)
 #' out.study <- cace.study(data = epidural_c, conv.diag = TRUE, 
 #' mcmc.samples = TRUE, two.step = TRUE) 
-#' # Show the estimates of \theta^{\text{CACE}} for each single study (posterior mean and 
+#' # Show the estimates of \theta^{\mathrm{CACE}} for each single study (posterior mean and 
 #' # standard deviation, posterior median, 95% credible interval, and time-series 
 #' # standard error):
 #' out.study$CACE

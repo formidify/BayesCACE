@@ -30,7 +30,7 @@ to dic format, This function is based on the \code{coda.samples} function
 from the \code{rjags} library, and modified by Prof. Matthias Mittner.
 }
 \references{
-\insertRef{rjags}{BayesCACE}
+\insertRef{plummer2021rjags}{BayesCACE}
 
 \url{https://ihrke.github.io/post/2014/10/07/dicjags/}
 }

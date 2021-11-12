@@ -17,7 +17,7 @@
 #' @import coda
 #' @export
 #' @references 
-#' \insertRef{rjags}{BayesCACE}
+#' \insertRef{plummer2021rjags}{BayesCACE}
 #' 
 #' \url{https://ihrke.github.io/post/2014/10/07/dicjags/}
 
@@ -77,7 +77,7 @@ coda.samples.dic <- function (model, variable.names, n.iter, thin, ...)
 #' @import coda 
 #' @export 
 #' @references 
-#' \insertRef{rjags}{BayesCACE}
+#' \insertRef{plummer2021rjags}{BayesCACE}
 coda.names <- function(basename, dim)
 {
     ## Utility function used to get the names of the individual elements
@@ -126,7 +126,7 @@ coda.names <- function(basename, dim)
 #' @import coda 
 #' @export 
 #' @references 
-#' \insertRef{rjags}{BayesCACE}
+#' \insertRef{plummer2021rjags}{BayesCACE}
 parse.varname <- function(varname) {
 
   ## Try to parse string of form "a" or "a[n,p:q,r]" where "a" is a

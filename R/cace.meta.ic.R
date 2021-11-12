@@ -1,13 +1,14 @@
-#' This function also estimates \eqn{\theta^{\text{CACE}}} using the Bayesian hierarchcal model 
+#' This function also estimates \eqn{\theta^{\mathrm{CACE}}} using the Bayesian hierarchcal model 
 #' but can accommodate studies with incomplete compliance data.  
 #' The necessary data structure and the likelihood function are presented Section 2.3, 
 #' CACE for meta-analysis with incomplete compliance information.
 #' @title Bayesian hierarchical models for CACE meta-analysis with incomplete compliance information
 #' @param data a input dataset the same structure as the example data \code{epidural_ic}, 
 #' containing multiple rows referring to multiple studies in a meta-analysis. 
-#' @param param the list of parameter used. Default to \code{c("CACE", "u1out", "v1out", "s1out", "b1out", 
-#'               "pic", "pin", "pia")}
-#' @param prior.type the default priors are used by the default assignment \code{prior.type="default"}.
+#' @param param the list of parameter used. 
+#' 
+#' Default to \code{c('CACE', 'u1out', 'v1out', 's1out', 'b1out', 'pic', 'pin', 'pia')}.
+#' @param prior.type the default priors are used by the default assignment \code{prior.type='default'}.
 #' @param random.effects a list of logical values indicating whether random effects are included in the model.
 #' The list should contain the assignment for these parameters only: \code{delta.n} (\eqn{\delta_{in}}), 
 #' \code{delta.a} (\eqn{\delta_{ia}}), \code{delta.u} (\eqn{\delta_{iu}}), \code{delta.v} (\eqn{\delta_{iv}}), 
@@ -22,15 +23,17 @@
 #' @param n.iter number of iterations. Default to \code{100000}.
 #' @param n.burnin number of burn-in iterations. Default to \code{n.iter/2}. 
 #' @param n.chains number of chains. Default to \code{3}.
-#' @param n.thin thinning rate, must be a positive integer. Default to \code{max(1,floor((n.iter-n.burnin)/100000))}.
+#' @param n.thin thinning rate, must be a positive integer. 
+#'
+#' Default to \code{max(1,floor((n.iter-n.burnin)/100000))}.
 #' @param conv.diag whether or not to show convergence diagnostics. Default to \code{FALSE}.
 #' @param mcmc.samples whether to include JAGS samples in the final output. Default to \code{FALSE}.
 #' @param study.specific a logical value indicating whether to calculate the study-specific 
-#' \eqn{\theta^{\text{CACE}}_i}. If \code{TRUE}, the model will first check the logical status of arguments 
+#' \eqn{\theta^{\mathrm{CACE}}_i}. If \code{TRUE}, the model will first check the logical status of arguments 
 #' \code{delta.u} and \code{delta.v}. If both are \code{FALSE}, meaning that neither response rate \eqn{u_{i1}} 
-#' or \eqn{v_{i1}} is modeled with a random effect, then the study-specific \eqn{\theta^{\text{CACE}}_i} is 
+#' or \eqn{v_{i1}} is modeled with a random effect, then the study-specific \eqn{\theta^{\mathrm{CACE}}_i} is 
 #' the same across studies. The function gives a warning and continues by making \code{study.specific = FALSE}. 
-#' Otherwise, the study-specific \eqn{\theta^{\text{CACE}}_i} are estimated and saved as the parameter \code{cacei}.
+#' Otherwise, the study-specific \eqn{\theta^{\mathrm{CACE}}_i} are estimated and saved as the parameter \code{cacei}.
 #' @return It returns a model object of class \code{cace.Bayes}
 #' @details  
 #' Note that when compiling the \code{JAGS} model, the warning `adaptation incomplete' may 

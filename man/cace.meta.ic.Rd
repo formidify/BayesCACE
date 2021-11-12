@@ -24,10 +24,11 @@ cace.meta.ic(
 \item{data}{a input dataset the same structure as the example data \code{epidural_ic}, 
 containing multiple rows referring to multiple studies in a meta-analysis.}
 
-\item{param}{the list of parameter used. Default to \code{c("CACE", "u1out", "v1out", "s1out", "b1out", 
-"pic", "pin", "pia")}}
+\item{param}{the list of parameter used. 
 
-\item{prior.type}{the default priors are used by the default assignment \code{prior.type="default"}.}
+Default to \code{c('CACE', 'u1out', 'v1out', 's1out', 'b1out', 'pic', 'pin', 'pia')}.}
+
+\item{prior.type}{the default priors are used by the default assignment \code{prior.type='default'}.}
 
 \item{random.effects}{a list of logical values indicating whether random effects are included in the model.
 The list should contain the assignment for these parameters only: \code{delta.n} (\eqn{\delta_{in}}), 
@@ -49,24 +50,26 @@ occurs and the model continues running by forcing \code{delta.n = TRUE} and \cod
 
 \item{n.chains}{number of chains. Default to \code{3}.}
 
-\item{n.thin}{thinning rate, must be a positive integer. Default to \code{max(1,floor((n.iter-n.burnin)/100000))}.}
+\item{n.thin}{thinning rate, must be a positive integer. 
+
+Default to \code{max(1,floor((n.iter-n.burnin)/100000))}.}
 
 \item{conv.diag}{whether or not to show convergence diagnostics. Default to \code{FALSE}.}
 
 \item{mcmc.samples}{whether to include JAGS samples in the final output. Default to \code{FALSE}.}
 
 \item{study.specific}{a logical value indicating whether to calculate the study-specific 
-\eqn{\theta^{\text{CACE}}_i}. If \code{TRUE}, the model will first check the logical status of arguments 
+\eqn{\theta^{\mathrm{CACE}}_i}. If \code{TRUE}, the model will first check the logical status of arguments 
 \code{delta.u} and \code{delta.v}. If both are \code{FALSE}, meaning that neither response rate \eqn{u_{i1}} 
-or \eqn{v_{i1}} is modeled with a random effect, then the study-specific \eqn{\theta^{\text{CACE}}_i} is 
+or \eqn{v_{i1}} is modeled with a random effect, then the study-specific \eqn{\theta^{\mathrm{CACE}}_i} is 
 the same across studies. The function gives a warning and continues by making \code{study.specific = FALSE}. 
-Otherwise, the study-specific \eqn{\theta^{\text{CACE}}_i} are estimated and saved as the parameter \code{cacei}.}
+Otherwise, the study-specific \eqn{\theta^{\mathrm{CACE}}_i} are estimated and saved as the parameter \code{cacei}.}
 }
 \value{
 It returns a model object of class \code{cace.Bayes}
 }
 \description{
-This function also estimates \eqn{\theta^{\text{CACE}}} using the Bayesian hierarchcal model 
+This function also estimates \eqn{\theta^{\mathrm{CACE}}} using the Bayesian hierarchcal model 
 but can accommodate studies with incomplete compliance data.  
 The necessary data structure and the likelihood function are presented Section 2.3, 
 CACE for meta-analysis with incomplete compliance information.
