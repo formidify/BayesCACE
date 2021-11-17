@@ -13,7 +13,8 @@ plt.noncomp(data, overall = TRUE, ...)
 per randomization group is provided. The default is \code{TRUE}. This overall rate is estimated 
 using a logit generalized linear mixed model.}
 
-\item{...}{optional parameters passed into the forestplot object}
+\item{...}{optional parameters passed into the \code{forestplot} function from the
+\code{forestplot} library}
 }
 \value{
 A forest plot of noncompliance rates in an \code{R} plot window

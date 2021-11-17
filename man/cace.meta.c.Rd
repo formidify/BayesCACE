@@ -89,7 +89,7 @@ It returns a model object of class \code{cace.Bayes}
 \description{
 This function performs the Bayesian hierarchical model method for meta-analysis 
 when the dataset has complete compliance information for all studies, 
-as described in the paper Section 2.2.2, the Bayesian hierarchical model.
+as described in the Section 2.2, "the Bayesian hierarchical model", of the package manuscript.
 }
 \examples{
 \donttest{

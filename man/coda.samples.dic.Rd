@@ -16,8 +16,8 @@ to be monitored}
 
 \item{thin}{thinning interval for monitors}
 
-\item{...}{optional arguments that are passed to the update method
-for jags model objects}
+\item{...}{optional arguments that are passed to the \code{jags.samples} method 
+from the \code{rjags} library, for jags model objects}
 }
 \value{
 It returns the output to the input model object, and in dic format.
@@ -26,7 +26,7 @@ It returns the output to the input model object, and in dic format.
 This is a wrapper function for \code{jags.samples} which sets a trace
 monitor for all requested nodes, updates the model, and coerces the
 output to a single \code{mcmc.list} object. It also converts to the output
-to dic format, This function is based on the \code{coda.samples} function
+to dic format. This function is based on the \code{coda.samples} function
 from the \code{rjags} library, and modified by Prof. Matthias Mittner.
 }
 \references{

@@ -12,13 +12,14 @@ containing multiple rows referring to multiple studies in a meta-analysis.}
 
 \item{obj}{an S3 objective to plot}
 
-\item{...}{optional parameters passed into the forestplot object}
+\item{...}{optional parameters passed into the \code{forestplot} function from the
+\code{forestplot} library}
 }
 \value{
 It returns a forestplot object in an \code{R} plot window.
 }
 \description{
-This function provides a visual overview (forst plot).
+This function provides a visual overview (forest plot).
 }
 \examples{
 \donttest{

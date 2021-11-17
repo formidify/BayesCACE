@@ -1,7 +1,7 @@
 #' This function performs CACE analysis for a single study using the 
-#' likelihood and model specified in the paper Section 2.1, or a two-step 
+#' likelihood and model specified in Section 2.1 of the package manuscript, or a two-step 
 #' approach for meta-analysis with complete compliance information as 
-#' described in the paper Section 2.2 "The two-step approach".
+#' described in Section 2.2, "the two-step approach".
 #' @title CACE analysis for a single study, or a two-step approach for meta-analysis 
 #' with complete complice information
 #' @param data a input dataset the same structure as the example data \code{epidural_c}, 
@@ -88,7 +88,7 @@
 #' }
 #' By default, the function \code{cace.study()} returns a list  
 #' including posterior estimates (posterior mean, standard deviation, median, and a 95\% 
-#' credible interval (CI) with 2.5\% and 97.5\% quantiles as the lower and upper bounds), 
+#' credible interval (CrI) with 2.5\% and 97.5\% quantiles as the lower and upper bounds), 
 #' and the deviance information criterion (DIC) statistic for each study.
 #' @importFrom stats update complete.cases
 #' @import rjags
@@ -102,11 +102,11 @@
 #' set.seed(123)
 #' out.study <- cace.study(data = epidural_c, conv.diag = TRUE, 
 #' mcmc.samples = TRUE, two.step = TRUE) 
-#' # Show the estimates of \theta^{\mathrm{CACE}} for each single study (posterior mean and 
+#' # Show the estimates of theta for each single study (posterior mean and 
 #' # standard deviation, posterior median, 95% credible interval, and time-series 
 #' # standard error):
 #' out.study$CACE
-#' # If the argument conv.diag is specified as \code{TRUE}, the output list contains 
+#' # If the argument conv.diag is specified as TRUE, the output list contains 
 #' # a sub-list conv.out, which outputs the Gelman and Rubin convergence statistic,
 #' # labelled Point est.) calculated for each parameter from each single study, and 
 #' # their upper confidence limits (labelled Upper C.I.).

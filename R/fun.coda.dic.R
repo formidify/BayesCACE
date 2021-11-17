@@ -1,7 +1,7 @@
 #' This is a wrapper function for \code{jags.samples} which sets a trace
 #' monitor for all requested nodes, updates the model, and coerces the
 #' output to a single \code{mcmc.list} object. It also converts to the output
-#' to dic format, This function is based on the \code{coda.samples} function
+#' to dic format. This function is based on the \code{coda.samples} function
 #' from the \code{rjags} library, and modified by Prof. Matthias Mittner.
 #' 
 #' @title Generate posterior samples in mcmc.list format
@@ -10,8 +10,8 @@
 #' to be monitored
 #' @param n.iter number of iterations to monitor
 #' @param thin thinning interval for monitors
-#' @param ... optional arguments that are passed to the update method
-#' for jags model objects
+#' @param ... optional arguments that are passed to the \code{jags.samples} method 
+#' from the \code{rjags} library, for jags model objects
 #' @return It returns the output to the input model object, and in dic format. 
 #' @import rjags
 #' @import coda

@@ -2,7 +2,9 @@
 #' @title this plot function creates a traceplot
 #' @param obj an S3 objective to plot
 #' @param param list of parameters to plot
-#' @param trialnumber indicator for the trial number
+#' @param trialnumber indicator for which trial number of the mcmc samples
+#' to use. The default is \code{1}
+#' @param ... optional parameters to pass into the \code{plot} function
 #' @return It returns a traceplot in an \code{R} plot window.
 #' @importFrom grDevices rainbow 
 #' @importFrom graphics plot par
@@ -15,7 +17,7 @@
 #' }
 
 plt.trace <- 
-  function(obj, param = c("CACE"), trialnumber = 1) {
+  function(obj, param = c("CACE"), trialnumber = 1, ...) {
   if(missing(obj)) stop("need to specify obj, the object generated from one of the following functions:\n
          cace.study, cace.meta.c, cace.meta.ic.\n")
   if (!inherits(obj, "cace.Bayes"))
@@ -48,7 +50,7 @@ plt.trace <-
     temp<-as.vector(x[[j]][,param])
     traceplot <- plot(temp,type="l",col="red",ylab=param,xlab="Iterations",
         main = paste("Trace Plot of", param,", Chain",j), 
-        lwd=1,cex.axis=1.2,cex.lab=1.4)
+        lwd=1,cex.axis=1.2,cex.lab=1.4, ...)
   }
   par(mfrow=c(1,1))
 }
@@ -57,7 +59,9 @@ plt.trace <-
 #' @title this plot function creates a density plot
 #' @param obj an S3 objective to plot
 #' @param param list of parameters to plot
-#' @param trialnumber indicator for the trial number
+#' @param trialnumber indicator for which trial number of the mcmc samples
+#' to use. The default is \code{1}
+#' @param ... optional parameters to pass into the \code{plot} function
 #' @return It returns a density plot in an \code{R} plot window.
 #' @importFrom grDevices rainbow 
 #' @importFrom graphics plot 
@@ -71,7 +75,7 @@ plt.trace <-
 #' }
 
 plt.density <- 
-  function(obj, param = c("CACE"), trialnumber = 1) {
+  function(obj, param = c("CACE"), trialnumber = 1, ...) {
   if(missing(obj)) stop("need to specify obj, the object generated from one of the following functions:\n
          cace.study, cace.meta.c, cace.meta.ic.\n")
   if (!inherits(obj, "cace.Bayes"))
@@ -101,7 +105,7 @@ plt.density <-
       temp<-as.vector(x[,param])
       bw <- bw.SJ(temp) * 1.5
       densplot <- plot(density(temp, bw = bw), xlab = param, 
-           main = paste("Density of", param))
+           main = paste("Density of", param), ...)
     } 
   }
   else if (n.chains >1) {
@@ -113,16 +117,19 @@ plt.density <-
       }
       bw <- bw.SJ(temp) * 1.5
       densplot <- plot(density(temp, bw = bw), xlab = param, 
-           main = paste("Density of", param))
+           main = paste("Density of", param), ...)
     } 
   }
 }
 
-#' This function creates an acf plot of the S3 objective.
+#' This function creates an acf (Autocorrelation Function) plot of the S3 objective.
 #' @title this plot function creates an acf plot
 #' @param obj an S3 objective to plot
 #' @param param list of parameters to plot
-#' @param trialnumber indicator for the trial number
+#' @param trialnumber indicator for which trial number of the mcmc samples
+#' to use. The default is \code{1}
+#' @param ... optional parameters to pass into the \code{acf} function
+#' from the \code{stats} library.
 #' @return It returns an acf plot in an \code{R} plot window.
 #' @importFrom grDevices rainbow 
 #' @importFrom graphics plot
@@ -136,7 +143,7 @@ plt.density <-
 #' }
 
 plt.acf <- 
-  function(obj, param = c("CACE"), trialnumber = 1) {
+  function(obj, param = c("CACE"), trialnumber = 1, ...) {
   if(missing(obj)) stop("need to specify obj, the object generated from one of the following functions:\n
          cace.study, cace.meta.c, cace.meta.ic.\n")
   if (!inherits(obj, "cace.Bayes"))
@@ -164,7 +171,7 @@ plt.acf <-
     nams <- dimnames(x)[[2]]
     if(is.element(param, nams)) {
       temp<-as.vector(x[,param])
-      acfplot <- acf(temp, ylab = param, main = paste("Series", param))
+      acfplot <- acf(temp, ylab = param, main = paste("Series", param), ...)
     } 
   }
   else if (n.chains >1) {
@@ -174,7 +181,7 @@ plt.acf <-
       for(j in 1:n.chains){
         temp<-c(temp, as.vector(x[[j]][,param]))
       }
-      acfplot <- acf(temp, ylab = param, main = paste("Series", param))
+      acfplot <- acf(temp, ylab = param, main = paste("Series", param), ...)
     } 
   }
 }

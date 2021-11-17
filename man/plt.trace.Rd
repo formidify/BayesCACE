@@ -4,14 +4,17 @@
 \alias{plt.trace}
 \title{this plot function creates a traceplot}
 \usage{
-plt.trace(obj, param = c("CACE"), trialnumber = 1)
+plt.trace(obj, param = c("CACE"), trialnumber = 1, ...)
 }
 \arguments{
 \item{obj}{an S3 objective to plot}
 
 \item{param}{list of parameters to plot}
 
-\item{trialnumber}{indicator for the trial number}
+\item{trialnumber}{indicator for which trial number of the mcmc samples
+to use. The default is \code{1}}
+
+\item{...}{optional parameters to pass into the \code{plot} function}
 }
 \value{
 It returns a traceplot in an \code{R} plot window.

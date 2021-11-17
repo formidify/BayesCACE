@@ -1,6 +1,6 @@
 #' This function performs the Bayesian hierarchical model method for meta-analysis 
 #' when the dataset has complete compliance information for all studies, 
-#' as described in the paper Section 2.2.2, the Bayesian hierarchical model.
+#' as described in the Section 2.2, "the Bayesian hierarchical model", of the package manuscript.
 #' @title Bayesian hierarchical models for CACE meta-analysis with complete compliance data
 #' @param data an input dataset with the same structure as the example data \code{epidural_c}, 
 #' containing multiple rows referring to multiple studies in a meta-analysis. 

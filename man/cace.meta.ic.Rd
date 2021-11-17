@@ -71,8 +71,8 @@ It returns a model object of class \code{cace.Bayes}
 \description{
 This function also estimates \eqn{\theta^{\mathrm{CACE}}} using the Bayesian hierarchcal model 
 but can accommodate studies with incomplete compliance data.  
-The necessary data structure and the likelihood function are presented Section 2.3, 
-CACE for meta-analysis with incomplete compliance information.
+The necessary data structure and the likelihood function are presented in Section 2.3 of the 
+package manuscript, "CACE for meta-analysis with incomplete compliance information".
 }
 \details{
 Note that when compiling the \code{JAGS} model, the warning `adaptation incomplete' may 

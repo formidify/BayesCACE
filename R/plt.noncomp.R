@@ -5,7 +5,8 @@
 #' @param overall a logical value indicating whether a summary estimate of the compliance rates 
 #' per randomization group is provided. The default is \code{TRUE}. This overall rate is estimated 
 #' using a logit generalized linear mixed model.
-#' @param ... optional parameters passed into the forestplot object
+#' @param ... optional parameters passed into the \code{forestplot} function from the
+#' \code{forestplot} library
 #' @return A forest plot of noncompliance rates in an \code{R} plot window
 #' @description Provides a forest plot of noncompliance rates in an \code{R} plot window. 
 #' @details  Only studies with full compliance information are included in this plot 

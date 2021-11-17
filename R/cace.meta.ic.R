@@ -1,7 +1,7 @@
 #' This function also estimates \eqn{\theta^{\mathrm{CACE}}} using the Bayesian hierarchcal model 
 #' but can accommodate studies with incomplete compliance data.  
-#' The necessary data structure and the likelihood function are presented Section 2.3, 
-#' CACE for meta-analysis with incomplete compliance information.
+#' The necessary data structure and the likelihood function are presented in Section 2.3 of the 
+#' package manuscript, "CACE for meta-analysis with incomplete compliance information".
 #' @title Bayesian hierarchical models for CACE meta-analysis with incomplete compliance information
 #' @param data a input dataset the same structure as the example data \code{epidural_ic}, 
 #' containing multiple rows referring to multiple studies in a meta-analysis. 

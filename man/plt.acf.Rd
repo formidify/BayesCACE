@@ -4,20 +4,24 @@
 \alias{plt.acf}
 \title{this plot function creates an acf plot}
 \usage{
-plt.acf(obj, param = c("CACE"), trialnumber = 1)
+plt.acf(obj, param = c("CACE"), trialnumber = 1, ...)
 }
 \arguments{
 \item{obj}{an S3 objective to plot}
 
 \item{param}{list of parameters to plot}
 
-\item{trialnumber}{indicator for the trial number}
+\item{trialnumber}{indicator for which trial number of the mcmc samples
+to use. The default is \code{1}}
+
+\item{...}{optional parameters to pass into the \code{acf} function
+from the \code{stats} library.}
 }
 \value{
 It returns an acf plot in an \code{R} plot window.
 }
 \description{
-This function creates an acf plot of the S3 objective.
+This function creates an acf (Autocorrelation Function) plot of the S3 objective.
 }
 \examples{
 \donttest{
