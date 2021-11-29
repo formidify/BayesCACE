@@ -5,29 +5,25 @@
 \title{Model code of CACE analysis for a single study, or a two-step approach for meta-analysis 
 with complete complice information}
 \usage{
-model.study(prior.type = "default", random.effects = list())
+model.study(re.values = list())
 }
 \arguments{
-\item{prior.type}{type of prior information. Default to "default".}
-
-\item{random.effects}{a list of logical values indicating whether random effects are included in the model.
-The list should contain the assignment for these parameters only: \code{delta.n} (\eqn{\delta_{in}}), 
-\code{delta.a} (\eqn{\delta_{ia}}), \code{delta.u} (\eqn{\delta_{iu}}), \code{delta.v} (\eqn{\delta_{iv}}), 
-\code{delta.s} (\eqn{\delta_{is}}), \code{delta.b} (\eqn{\delta_{ib}}), \code{cor}. The list should be in the
-form of \code{list(delta.a = FALSE, cor = FALSE, ...)}. By default, this
-is an empty list, and all parameters are default to \code{TRUE}. Parameters that are not listed in the list
-are assumed to be \code{TRUE}. Note that \eqn{\rho} (\code{cor}) can only be included when both \eqn{\delta_{in}} 
-(\code{delta.n}) and \eqn{\delta_{ia}} (\code{delta.a}) are set to \code{TRUE}. Otherwise, a warning 
-occurs and the model continues running by forcing \code{delta.n = TRUE} and \code{delta.a = TRUE}.}
+\item{re.values}{a list of parameter values for the random effects. It should contain the assignment for these
+parameters only: \code{n.m} and \code{n.s}, which refer to the mean and standard deviation used
+in the normal distribution estimation of \code{n}, as well as \code{a.m}, \code{a.s}, 
+\code{alpha.s.m}, \code{alpha.s.s}, \code{alpha.b.m}, \code{alpha.b.s}, \code{alpha.u.m}, \code{alpha.u.s},
+\code{alpha.v.m}, \code{alpha.v.s}. By default, this is an empty list, and all the mean are set to \code{0}, and 
+\code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25}.}
 }
 \value{
 It returns a model string
 }
 \description{
 This function generates the model code for a single study using the 
-likelihood and model specified in the paper Section 2.1, or a two-step 
+likelihood and model specified in Section 2.1, or a two-step 
 approach for meta-analysis with complete compliance information as 
-described in the paper Section 2.2 "The two-step approach".
+described in Section 2.2, "The two-step approach" of the package manuscript.
+This function will be called internally if user uses the \code{cace.study} function.
 }
 \examples{
 model.string <- model.study()

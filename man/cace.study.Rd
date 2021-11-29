@@ -8,7 +8,7 @@ with complete complice information}
 cace.study(
   data,
   param = c("CACE", "u1", "v1", "s1", "b1", "pi.c", "pi.n", "pi.a"),
-  prior.type = "default",
+  re.values = list(),
   digits = 3,
   n.adapt = 1000,
   n.iter = 1e+05,
@@ -33,20 +33,12 @@ By default all parameters in the model (see \code{details}) are included: \eqn{\
 Users can modify the string vector to only include parameters of interest besides 
 \eqn{\theta^{\mathrm{CACE}}}.}
 
-\item{prior.type}{the default priors are used by the default assignment \code{prior.type='default'}.
-They are assigned to the transformed scale of the following parameters:
-\eqn{\pi_{n}=\frac{\exp(n)}{1+\exp(n)+\exp(a)}}, \eqn{\pi_{a}=\frac{\exp(a)}{1+\exp(n)+\exp(a)}}, 
-\eqn{{logit}(s_1)=\alpha_s}, \eqn{{logit}(b_1)=\alpha_b}, \eqn{{probit}(u_1)=\alpha_u},
-and \eqn{{probit}(v_1)=\alpha_v}, where \eqn{n, a \sim N(0, 2.5^2)} and 
-
-\eqn{\alpha_s, \alpha_b, \alpha_u, \alpha_v \sim N(0, 2^2)}. 
-Alternatively, users can specify their own prior distributions for all parameters, 
-and save them as a file \code{prior.study.R} under the same directory with the model 
-function. By assigning \code{prior.type = 'custom'}, the function calls the user-defined 
-text string as the priors. See example in \code{details}. 
-Note that if users choose the customized priors, the pre-defined \code{prior.study.R} 
-must include distributions for all parameters. The function cannot combine the default 
-priors with partial user-defined prior distributions.}
+\item{re.values}{a list of parameter values for the random effects. It should contain the assignment for these
+parameters only: \code{n.m} and \code{n.s}, which refer to the mean and standard deviation used
+in the normal distribution estimation of \code{n}, as well as \code{a.m}, \code{a.s}, 
+\code{alpha.s.m}, \code{alpha.s.s}, \code{alpha.b.m}, \code{alpha.b.s}, \code{alpha.u.m}, \code{alpha.u.s},
+\code{alpha.v.m}, \code{alpha.v.s}. By default, this is an empty list, and all the mean are set to \code{0}, and 
+\code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25}.}
 
 \item{digits}{a positive integer specifying the digits after the decimal point for 
 the effect size estimates. The default is \code{3}.}
@@ -115,16 +107,6 @@ The likelihood \deqn{\log L({\boldsymbol{\beta}}) = N_{000}\log\{\pi_{c}(1-v_1)+
 \deqn{+ \pi_{a}(1-b_1)\}+{N_{111}\log(\pi_{c}u_1+\pi_{a}b_1)} + constant}. 
 If the input \code{data} includes more than one study, the study-specific CACEs will be 
 estimated by retrieving data row by row.
-One exmaple of the \code{prior.study.R} file if using \code{prior.type = 'custom'}:
-\preformatted{prior.study <- function(prior.type = 'custom') {
-string2 <- 'n ~ dnorm(0, 0.01) 
-  a ~ dnorm(0, 0.01) 
-  alpha.s ~ dnorm(0, 0.01) 
-  alpha.b ~ dnorm(0, 0.01) 
-  alpha.u ~ dnorm(0, 0.01) 
-  alpha.v ~ dnorm(0, 0.01)'
-return(string2)}
-}
 By default, the function \code{cace.study()} returns a list  
 including posterior estimates (posterior mean, standard deviation, median, and a 95\% 
 credible interval (CrI) with 2.5\% and 97.5\% quantiles as the lower and upper bounds), 

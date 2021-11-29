@@ -10,22 +10,6 @@
 #' \eqn{E(b_{i1})} (\code{b1out}), \eqn{\pi_a} (\code{pia}), \eqn{\pi_n} (\code{pin}), and 
 #' \eqn{\pi_c=1-\pi_a-\pi_n} (\code{pic}). 
 #' Users can modify the string vector to only include parameters of interest besides \eqn{\theta^{\mathrm{CACE}}}. 
-#' @param prior.type the default priors are used by the default assignment \code{prior.type='default'}.
-#' Like the function \code{\link{cace.study}}, weakly informative priors \eqn{\alpha_n, \alpha_a \sim 
-#' N(0, 2.5^2)} and \eqn{\alpha_s, \alpha_b, \alpha_u, \alpha_v \sim N(0, 2^2)} are assigned to the 
-#' means of these transformed parameters:
-#' \eqn{\pi_{in}=\frac{\exp(n_i)}{1+\exp(n_i)+\exp(a_i)}}, \eqn{\pi_{ia}=\frac{\exp(a_i)}{1+\exp(n_i)+\exp(a_i)}}, 
-#' where \eqn{n_i=\alpha_n+\delta_{in}}, \eqn{a_i=\alpha_a+\delta_{ia}}, \eqn{logit(s_{i1})=\alpha_s + \delta_{is}},
-#' \eqn{logit(b_{i1})=\alpha_b + \delta_{ib}}, \eqn{probit(u_{i1})=\alpha_u + \delta_{iu}}, 
-#' and \eqn{probit(v_{i1})=\alpha_v + \delta_{iv}}. 
-#' Alternatively, this function allows users to specify their own prior distributions by saving a separate 
-#' \code{R} file \code{prior.meta.R} under the same directory with the model file, and assigning the argument 
-#' \code{prior.type = 'custom'}.
-#' Users can modify the above customized file \code{prior.meta.R} to assign their preferred prior 
-#' distributions. Note that same as the function \code{\link{cace.study}}, the function cannot
-#' combine the default priors with partial user-defined prior distributions. Thus users need to 
-#' be careful when choosing the customized priors: the pre-defined \code{R} file \code{prior.meta.R} must 
-#' include distributions for all hyper-parameters. 
 #' @param random.effects a list of logical values indicating whether random effects are included in the model.
 #' The list should contain the assignment for these parameters only: \code{delta.n} (\eqn{\delta_{in}}), 
 #' \code{delta.a} (\eqn{\delta_{ia}}), \code{delta.u} (\eqn{\delta_{iu}}), \code{delta.v} (\eqn{\delta_{iv}}), 
@@ -35,6 +19,12 @@
 #' are assumed to be \code{TRUE}. Note that \eqn{\rho} (\code{cor}) can only be included when both \eqn{\delta_{in}} 
 #' (\code{delta.n}) and \eqn{\delta_{ia}} (\code{delta.a}) are set to \code{TRUE}. Otherwise, a warning 
 #' occurs and the model continues running by forcing \code{delta.n = TRUE} and \code{delta.a = TRUE}.  
+#' @param re.values a list of parameter values for the random effects. It should contain the assignment for these
+#' parameters only: \code{alpha.n.m} and \code{alpha.n.s}, which refer to the mean and standard deviation used
+#' in the normal distribution estimation of \code{alpha.n}, as well as \code{alpha.a.m}, \code{alpha.a.s}, 
+#' \code{alpha.s.m}, \code{alpha.s.s}, \code{alpha.b.m}, \code{alpha.b.s}, \code{alpha.u.m}, \code{alpha.u.s},
+#' \code{alpha.v.m}, \code{alpha.v.s}. By default, this is an empty list, and all the mean are set to \code{0}, and 
+#' \code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25}. 
 #' @param digits number of digits. Default to \code{3}.
 #' @param n.adapt adapt value. Default to \code{1000}.
 #' @param n.iter number of iterations. Default to \code{100000}.
@@ -82,7 +72,7 @@ cace.meta.c <-
   function(data, 
            param = c("CACE", "u1out", "v1out", "s1out", "b1out", 
                    "pic", "pin", "pia"),
-           prior.type = "default", random.effects = list(), 
+           random.effects = list(), re.values = list(),
            digits = 3, n.adapt = 1000, n.iter = 100000,
            n.burnin = floor(n.iter/2), n.chains = 3, n.thin = max(1,floor((n.iter-n.burnin)/100000)),
            conv.diag = FALSE, mcmc.samples = FALSE, study.specific = FALSE)    {
@@ -143,18 +133,16 @@ cace.meta.c <-
     if (!cor) Ind[7] <- 0
     
     ## jags model
-    modelstring<-model.meta.c(prior.type, Ind)
+    modelstring<-model.meta.c(random.effects = random.effects, re.values = re.values)
 
     ## jags data
-    if(prior.type == "default"){
-      Ntol <- n000+n001+n010+n011+n100+n101+n110+n111
-      N0 <- n000+n001+n010+n011
-      N1 <- n100+n101+n110+n111
-      R <- cbind(n000,n001,n010,n011, n100,n101,n110,n111)
-      I <- length(Ntol)
-      pi <- pi
-      data.jags <- list(N0=N0, N1=N1, R=R, I=I, Ind=Ind, pi=pi)
-    }
+    Ntol <- n000+n001+n010+n011+n100+n101+n110+n111
+    N0 <- n000+n001+n010+n011
+    N1 <- n100+n101+n110+n111
+    R <- cbind(n000,n001,n010,n011, n100,n101,n110,n111)
+    I <- length(Ntol)
+    pi <- pi
+    data.jags <- list(N0=N0, N1=N1, R=R, I=I, Ind=Ind, pi=pi)
 
     
     ## jags initial value

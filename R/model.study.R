@@ -1,52 +1,23 @@
 #' This function generates the model code for a single study using the 
-#' likelihood and model specified in the paper Section 2.1, or a two-step 
+#' likelihood and model specified in Section 2.1, or a two-step 
 #' approach for meta-analysis with complete compliance information as 
-#' described in the paper Section 2.2 "The two-step approach".
+#' described in Section 2.2, "The two-step approach" of the package manuscript.
+#' This function will be called internally if user uses the \code{cace.study} function.
 #' @title Model code of CACE analysis for a single study, or a two-step approach for meta-analysis 
 #' with complete complice information
-#' @param prior.type type of prior information. Default to "default".
-#' @param random.effects a list of logical values indicating whether random effects are included in the model.
-#' The list should contain the assignment for these parameters only: \code{delta.n} (\eqn{\delta_{in}}), 
-#' \code{delta.a} (\eqn{\delta_{ia}}), \code{delta.u} (\eqn{\delta_{iu}}), \code{delta.v} (\eqn{\delta_{iv}}), 
-#' \code{delta.s} (\eqn{\delta_{is}}), \code{delta.b} (\eqn{\delta_{ib}}), \code{cor}. The list should be in the
-#' form of \code{list(delta.a = FALSE, cor = FALSE, ...)}. By default, this
-#' is an empty list, and all parameters are default to \code{TRUE}. Parameters that are not listed in the list
-#' are assumed to be \code{TRUE}. Note that \eqn{\rho} (\code{cor}) can only be included when both \eqn{\delta_{in}} 
-#' (\code{delta.n}) and \eqn{\delta_{ia}} (\code{delta.a}) are set to \code{TRUE}. Otherwise, a warning 
-#' occurs and the model continues running by forcing \code{delta.n = TRUE} and \code{delta.a = TRUE}. 
+#' @param re.values a list of parameter values for the random effects. It should contain the assignment for these
+#' parameters only: \code{n.m} and \code{n.s}, which refer to the mean and standard deviation used
+#' in the normal distribution estimation of \code{n}, as well as \code{a.m}, \code{a.s}, 
+#' \code{alpha.s.m}, \code{alpha.s.s}, \code{alpha.b.m}, \code{alpha.b.s}, \code{alpha.u.m}, \code{alpha.u.s},
+#' \code{alpha.v.m}, \code{alpha.v.s}. By default, this is an empty list, and all the mean are set to \code{0}, and 
+#' \code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25}. 
 #' @return It returns a model string
 #' @export
 #' @examples
 #' model.string <- model.study()
-model.study <- function(prior.type="default", random.effects = list()){
+model.study <- function(re.values = list()){
 
-    delta.n <- delta.a <- delta.u <- delta.v <- delta.s <- delta.b <- cor <- TRUE
-    if ("delta.n" %in% names(random.effects)) {delta.n <- random.effects[['delta.n']]}
-    if ("delta.a" %in% names(random.effects)) {delta.a <- random.effects[['delta.a']]}
-    if ("delta.u" %in% names(random.effects)) {delta.u <- random.effects[['delta.u']]}
-    if ("delta.v" %in% names(random.effects)) {delta.v <- random.effects[['delta.v']]}
-    if ("delta.s" %in% names(random.effects)) {delta.s <- random.effects[['delta.s']]}
-    if ("delta.b" %in% names(random.effects)) {delta.b <- random.effects[['delta.b']]}
-    if ("cor" %in% names(random.effects)) {delta.n <- random.effects[['cor']]}
-    
-    if ((!(delta.n & delta.a)) & cor){
-      warning("'cor' can be assigned as TRUE only if both delta.n and delta.a are TRUE.\n
-              the model is continued by forcing delta.n=TRUE and delta.a=TRUE")
-      delta.n <- TRUE
-      delta.a <- TRUE
-    }
-    
-    Ind <- rep(1, 7)
-    if (!delta.n) Ind[1] <- 0
-    if (!delta.a) Ind[2] <- 0
-    if (!delta.u) Ind[3] <- 0
-    if (!delta.v) Ind[4] <- 0
-    if (!delta.s) Ind[5] <- 0
-    if (!delta.b) Ind[6] <- 0
-    if (!cor) Ind[7] <- 0
-
-    if(prior.type == "default"){ 
-    string1 <- "model{
+    mod.string <- "model{
       prob[1] <- (pi.n*(1-s1) + pi.c*(1-v1))
       prob[2] <- (pi.n*s1 + pi.c*v1)
       prob[3] <- (pi.a*(1-b1))
@@ -69,28 +40,8 @@ model.study <- function(prior.type="default", random.effects = list()){
       
       CACE <- u1-v1
     "
-    string2 <-
-      "# priors
-      n ~ dnorm(0, 0.16)
-      a ~ dnorm(0, 0.16)
-      alpha.s ~ dnorm(0, 0.25)
-      alpha.b ~ dnorm(0, 0.25)
-      alpha.u ~ dnorm(0, 0.25)
-      alpha.v ~ dnorm(0, 0.25)
-      }
-      "
-    modelstring <- paste(string1, string2, sep="\n")
-    }
-
-      
-    else if (prior.type == "custom"){
-      string2 <- prior.study(prior.type)
-      modelstring <- paste(string1, string2, sep="\n")
-    }
-      
-    if(!is.element(prior.type,c("default", "custom"))){
-      stop("specified prior type should be either 'default' or 'custom'.")
-    }
+    prior.string <- prior.study(re.values = re.values)
+    modelstring <- paste(mod.string, prior.string, sep="\n")
       
     return(modelstring)
 }
