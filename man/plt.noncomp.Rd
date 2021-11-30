@@ -2,7 +2,7 @@
 % Please edit documentation in R/plt.noncomp.R
 \name{plt.noncomp}
 \alias{plt.noncomp}
-\title{Plotting noncompliance rates}
+\title{Plotting noncompliance rates for a given dataset}
 \usage{
 plt.noncomp(data, overall = TRUE, ...)
 }
@@ -23,7 +23,7 @@ A forest plot of noncompliance rates in an \code{R} plot window
 Provides a forest plot of noncompliance rates in an \code{R} plot window.
 }
 \details{
-This function provides a visual overview (forst plot) of study-specific 
+This function provides a visual overview (forest plot) of study-specific 
 noncompliance rates in both randomization arms.
 
  Only studies with full compliance information are included in this plot 

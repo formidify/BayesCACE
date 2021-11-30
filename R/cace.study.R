@@ -19,6 +19,10 @@
 #' \code{alpha.s.m}, \code{alpha.s.s}, \code{alpha.b.m}, \code{alpha.b.s}, \code{alpha.u.m}, \code{alpha.u.s},
 #' \code{alpha.v.m}, \code{alpha.v.s}. By default, this is an empty list, and all the mean are set to \code{0}, and 
 #' \code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25}. 
+#' @param model.code a string representation of the model code; each line should be separated. Default to constructing 
+#' model code using the \code{model.meta.ic} function with the parameters that are inputted to this function. This 
+#' parameter is only necessary if user wishes to make functional changes to the model code, such as changing the
+#' probability distributions of the parameters. Default to empty string.
 #' @param digits a positive integer specifying the digits after the decimal point for 
 #' the effect size estimates. The default is \code{3}.
 #' @param n.adapt the number of iterations for adaptation in Markov chain Monte Carlo (MCMC) algorithm; 
@@ -98,7 +102,7 @@
 #' 
 cace.study <-
   function(data, param = c("CACE", "u1", "v1", "s1", "b1", "pi.c", "pi.n", 
-          "pi.a"), re.values = list(), digits = 3, n.adapt = 1000, 
+          "pi.a"), re.values = list(), model.code = '', digits = 3, n.adapt = 1000, 
            n.iter = 100000, n.burnin = floor(n.iter/2), n.chains = 3, n.thin =  
           max(1,floor((n.iter-n.burnin)/1e+05)), conv.diag = FALSE, mcmc.samples
            = FALSE, two.step = FALSE, method = "REML")    {
@@ -125,7 +129,10 @@ cace.study <-
       stop("study.id, n000, n001, n010, n011, n100, n101, n110, and n111 have different lengths. \n")
     
     ## jags model
-    modelstring<-model.study(re.values)
+    if (nchar(model.code) == 0) {
+      modelstring<-model.study(re.values)
+    }
+    else {modelstring <- model.code}
     
     ## data prep
     Ntol <- n000+n001+n010+n011+n100+n101+n110+n111

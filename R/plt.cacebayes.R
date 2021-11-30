@@ -1,6 +1,7 @@
-#' This function creates a traceplot of the S3 objective.
+#' This function creates a traceplot for a \code{cace.Bayes} object.
 #' @title this plot function creates a traceplot
-#' @param obj an S3 objective to plot
+#' @param obj a \code{cace.Bayes} object, returned by \code{cace.meta.c}, \code{cace.meta.ic},
+#' or \code{cace.study}
 #' @param param list of parameters to plot
 #' @param trialnumber indicator for which trial number of the mcmc samples
 #' to use. The default is \code{1}
@@ -55,9 +56,10 @@ plt.trace <-
   par(mfrow=c(1,1))
 }
 
-#' This function creates a density plot of the S3 objective.
+#' This function creates a density plot for a \code{cace.Bayes} object.
 #' @title this plot function creates a density plot
-#' @param obj an S3 objective to plot
+#' @param obj a \code{cace.Bayes} object, returned by \code{cace.meta.c}, \code{cace.meta.ic},
+#' or \code{cace.study}
 #' @param param list of parameters to plot
 #' @param trialnumber indicator for which trial number of the mcmc samples
 #' to use. The default is \code{1}
@@ -122,9 +124,10 @@ plt.density <-
   }
 }
 
-#' This function creates an acf (Autocorrelation Function) plot of the S3 objective.
+#' This function creates an acf (Autocorrelation Function) plot for a \code{cace.Bayes} object.
 #' @title this plot function creates an acf plot
-#' @param obj an S3 objective to plot
+#' @param obj a \code{cace.Bayes} object, returned by \code{cace.meta.c}, \code{cace.meta.ic},
+#' or \code{cace.study}
 #' @param param list of parameters to plot
 #' @param trialnumber indicator for which trial number of the mcmc samples
 #' to use. The default is \code{1}

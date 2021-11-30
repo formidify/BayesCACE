@@ -14,8 +14,14 @@
 #' parameters only: \code{alpha.n.m} and \code{alpha.n.s}, which refer to the mean and standard deviation used
 #' in the normal distribution estimation of \code{alpha.n}, as well as \code{alpha.a.m}, \code{alpha.a.s}, 
 #' \code{alpha.s.m}, \code{alpha.s.s}, \code{alpha.b.m}, \code{alpha.b.s}, \code{alpha.u.m}, \code{alpha.u.s},
-#' \code{alpha.v.m}, \code{alpha.v.s}. By default, this is an empty list, and all the mean are set to \code{0}, and 
-#' \code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25}. 
+#' \code{alpha.v.m}, \code{alpha.v.s}. It also contains the shape and rate parameters of the gamma distributions
+#' of the standard deviation variable of \code{delta.n}, \code{delta.a}, \code{delta.u}, \code{delta.v}
+#' \code{delta.s}, \code{delta.b}. The shape parameters are named as \code{tau.n.h} and \code{tau.a.h}, for example,
+#' and the rate parameters are named as \code{tau.n.r} and \code{tau.a.r}. You do not need to specify the shape and
+#' rate parameters if the corresponding random effect is set to \code{FALSE} in \code{random.effects}, since they will
+#' not be used anyways. By default, \code{re.values} is an empty list, and all the mean are set to \code{0}, and 
+#' \code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25},
+#' and the shape and rate parameters are default to \code{2}.
 #' @return custom prior string
 #' @export
 #' @examples
@@ -104,10 +110,13 @@ prior.meta <- function(random.effects = list(), re.values = list()){
       string2_0 <- string4_0 <- ""
       
       if(Ind[1]==1){
+        tau.n.h <- tau.n.r <- 2
+        if ("tau.n.h" %in% names(re.values)) {tau.n.h <- re.values[['tau.n.h']]}
+        if ("tau.n.r" %in% names(re.values)) {tau.n.r <- re.values[['tau.n.r']]}
         string2_1 <- "delta.n[i] ~ dnorm(0, tau.n)"
-        string4_1 <- 
-      "tau.n ~ dgamma(2, 2)
-    sigma.n <- 1/sqrt(tau.n)"
+        string4_1 <- sprintf(
+      "tau.n ~ dgamma(%s, %s)
+    sigma.n <- 1/sqrt(tau.n)", tau.n.h, tau.n.r)
       }
       else if (Ind[1]==0){
         string2_1 <- ""
@@ -115,10 +124,13 @@ prior.meta <- function(random.effects = list(), re.values = list()){
       }
       
       if(Ind[2]==1){
+        tau.a.h <- tau.a.r <- 2
+        if ("tau.a.h" %in% names(re.values)) {tau.a.h <- re.values[['tau.a.h']]}
+        if ("tau.a.r" %in% names(re.values)) {tau.a.r <- re.values[['tau.a.r']]}
         string2_2 <- "delta.a[i] ~ dnorm(0, tau.a)"
-        string4_2 <- 
-      "tau.a ~ dgamma(2, 2)
-    sigma.a <- 1/sqrt(tau.a)"
+        string4_2 <- sprintf(
+      "tau.a ~ dgamma(%s, %s)
+    sigma.a <- 1/sqrt(tau.a)", tau.a.h, tau.a.r)
       }
       else if (Ind[2]==0){
         string2_2 <- ""
@@ -127,11 +139,14 @@ prior.meta <- function(random.effects = list(), re.values = list()){
     }  
       
     if(Ind[3]==1){
+      tau.u.h <- tau.u.r <- 2
+      if ("tau.u.h" %in% names(re.values)) {tau.u.h <- re.values[['tau.u.h']]}
+      if ("tau.u.r" %in% names(re.values)) {tau.u.r <- re.values[['tau.u.r']]}
       string2_3 <- "delta.u[i] ~ dnorm(0, tau.u)"
-      string4_3 <- 
+      string4_3 <- sprintf(
     "u1out <- phi(alpha.u/sqrt(1+sigma.u^2))
-    tau.u ~ dgamma(2, 2)
-    sigma.u <- 1/sqrt(tau.u)"
+    tau.u ~ dgamma(%s, %s)
+    sigma.u <- 1/sqrt(tau.u)", tau.u.h, tau.u.r)
     }
     else if (Ind[3]==0){
       string2_3 <- ""
@@ -139,12 +154,15 @@ prior.meta <- function(random.effects = list(), re.values = list()){
     }
       
     if(Ind[4]==1){
+      tau.v.h <- tau.v.r <- 2
+      if ("tau.v.h" %in% names(re.values)) {tau.v.h <- re.values[['tau.v.h']]}
+      if ("tau.v.r" %in% names(re.values)) {tau.v.r <- re.values[['tau.v.r']]}
       string2_4 <- "delta.v[i] ~ dnorm(0, tau.v)"
-      string4_4 <- 
+      string4_4 <- sprintf(
     "v1out <- phi(alpha.v/sqrt(1+sigma.v^2))
     CACE <- u1out-v1out
-    tau.v ~ dgamma(2, 2)
-    sigma.v <- 1/sqrt(tau.v)"
+    tau.v ~ dgamma(%s, %s)
+    sigma.v <- 1/sqrt(tau.v)", tau.v.h, tau.v.r)
     }
     else if (Ind[4]==0){
       string2_4 <- ""
@@ -154,11 +172,14 @@ prior.meta <- function(random.effects = list(), re.values = list()){
     }
       
     if(Ind[5]==1){
+      tau.s.h <- tau.s.r <- 2
+      if ("tau.s.h" %in% names(re.values)) {tau.s.h <- re.values[['tau.s.h']]}
+      if ("tau.s.r" %in% names(re.values)) {tau.s.r <- re.values[['tau.s.r']]}
       string2_5 <- "delta.s[i] ~ dnorm(0, tau.s)"
-      string4_5 <- 
+      string4_5 <- sprintf(
     "s1out <- ilogit(alpha.s/sqrt(1 + (16^2*3/(15^2*pi^2))*sigma.s^2))
-    tau.s ~ dgamma(2, 2)
-    sigma.s <- 1/sqrt(tau.s)"
+    tau.s ~ dgamma(%s, %s)
+    sigma.s <- 1/sqrt(tau.s)", tau.s.h, tau.s.r)
     }
     else if (Ind[5]==0){
       string2_5 <- ""
@@ -166,13 +187,16 @@ prior.meta <- function(random.effects = list(), re.values = list()){
     }  
       
     if(Ind[6]==1){
+      tau.b.h <- tau.b.r <- 2
+      if ("tau.b.h" %in% names(re.values)) {tau.b.h <- re.values[['tau.b.h']]}
+      if ("tau.b.r" %in% names(re.values)) {tau.b.r <- re.values[['tau.b.r']]}
       string2_6 <- "delta.b[i] ~ dnorm(0, tau.b)
     }"
-      string4_6 <- 
+      string4_6 <- sprintf(
     "b1out <- ilogit(alpha.b/sqrt(1 + (16^2*3/(15^2*pi^2))*sigma.b^2))
-    tau.b ~ dgamma(2, 2)
+    tau.b ~ dgamma(%s, %s)
     sigma.b <- 1/sqrt(tau.b)
-    }"
+    }", tau.b.h, tau.b.r)
     }
     else if (Ind[6]==0){
       string2_6 <- "

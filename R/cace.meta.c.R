@@ -23,8 +23,18 @@
 #' parameters only: \code{alpha.n.m} and \code{alpha.n.s}, which refer to the mean and standard deviation used
 #' in the normal distribution estimation of \code{alpha.n}, as well as \code{alpha.a.m}, \code{alpha.a.s}, 
 #' \code{alpha.s.m}, \code{alpha.s.s}, \code{alpha.b.m}, \code{alpha.b.s}, \code{alpha.u.m}, \code{alpha.u.s},
-#' \code{alpha.v.m}, \code{alpha.v.s}. By default, this is an empty list, and all the mean are set to \code{0}, and 
-#' \code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25}. 
+#' \code{alpha.v.m}, \code{alpha.v.s}. It also contains the shape and rate parameters of the gamma distributions
+#' of the standard deviation variable of \code{delta.n}, \code{delta.a}, \code{delta.u}, \code{delta.v}
+#' \code{delta.s}, \code{delta.b}. The shape parameters are named as \code{tau.n.h} and \code{tau.a.h}, for example,
+#' and the rate parameters are named as \code{tau.n.r} and \code{tau.a.r}. You do not need to specify the shape and
+#' rate parameters if the corresponding random effect is set to \code{FALSE} in \code{random.effects}, since they will
+#' not be used anyways. By default, \code{re.values} is an empty list, and all the mean are set to \code{0}, and 
+#' \code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25},
+#' and the shape and rate parameters are default to \code{2}.
+#' @param model.code a string representation of the model code; each line should be separated. Default to constructing 
+#' model code using the \code{model.meta.c} function with the parameters that are inputted to this function. This 
+#' parameter is only necessary if user wishes to make functional changes to the model code, such as changing the
+#' probability distributions of the parameters. Default to empty string.
 #' @param digits number of digits. Default to \code{3}.
 #' @param n.adapt adapt value. Default to \code{1000}.
 #' @param n.iter number of iterations. Default to \code{100000}.
@@ -72,7 +82,7 @@ cace.meta.c <-
   function(data, 
            param = c("CACE", "u1out", "v1out", "s1out", "b1out", 
                    "pic", "pin", "pia"),
-           random.effects = list(), re.values = list(),
+           random.effects = list(), re.values = list(), model.code = '',
            digits = 3, n.adapt = 1000, n.iter = 100000,
            n.burnin = floor(n.iter/2), n.chains = 3, n.thin = max(1,floor((n.iter-n.burnin)/100000)),
            conv.diag = FALSE, mcmc.samples = FALSE, study.specific = FALSE)    {
@@ -133,7 +143,10 @@ cace.meta.c <-
     if (!cor) Ind[7] <- 0
     
     ## jags model
-    modelstring<-model.meta.c(random.effects = random.effects, re.values = re.values)
+    if (nchar(model.code) == 0) {
+      modelstring<-model.meta.c(random.effects = random.effects, re.values = re.values)
+    }
+    else {modelstring <- model.code}
 
     ## jags data
     Ntol <- n000+n001+n010+n011+n100+n101+n110+n111

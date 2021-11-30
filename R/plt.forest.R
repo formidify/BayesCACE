@@ -1,8 +1,9 @@
-#' This function provides a visual overview (forest plot).
+#' This function provides a visual overview (forest plot) for a \code{cace.Bayes} object and corresponding dataset.
 #' @title this plot function makes a forest plot.
 #' @param data an input dataset with the same structure as the example data \code{epidural_c}, 
 #' containing multiple rows referring to multiple studies in a meta-analysis. 
-#' @param obj an S3 objective to plot
+#' @param obj a \code{cace.Bayes} object, returned by \code{cace.meta.c}, \code{cace.meta.ic},
+#' or \code{cace.study}
 #' @param ... optional parameters passed into the \code{forestplot} function from the
 #' \code{forestplot} library
 #' @return It returns a forestplot object in an \code{R} plot window.

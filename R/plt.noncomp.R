@@ -1,6 +1,6 @@
-#' This function provides a visual overview (forst plot) of study-specific 
+#' This function provides a visual overview (forest plot) of study-specific 
 #' noncompliance rates in both randomization arms.
-#' @title Plotting noncompliance rates
+#' @title Plotting noncompliance rates for a given dataset
 #' @param data a dataset with structure like the example \code{epidural_c} or \code{epidural_ic}
 #' @param overall a logical value indicating whether a summary estimate of the compliance rates 
 #' per randomization group is provided. The default is \code{TRUE}. This overall rate is estimated 

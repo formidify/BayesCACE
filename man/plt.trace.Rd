@@ -7,7 +7,8 @@
 plt.trace(obj, param = c("CACE"), trialnumber = 1, ...)
 }
 \arguments{
-\item{obj}{an S3 objective to plot}
+\item{obj}{a \code{cace.Bayes} object, returned by \code{cace.meta.c}, \code{cace.meta.ic},
+or \code{cace.study}}
 
 \item{param}{list of parameters to plot}
 
@@ -20,7 +21,7 @@ to use. The default is \code{1}}
 It returns a traceplot in an \code{R} plot window.
 }
 \description{
-This function creates a traceplot of the S3 objective.
+This function creates a traceplot for a \code{cace.Bayes} object.
 }
 \examples{
 \donttest{

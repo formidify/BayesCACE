@@ -9,6 +9,7 @@ cace.study(
   data,
   param = c("CACE", "u1", "v1", "s1", "b1", "pi.c", "pi.n", "pi.a"),
   re.values = list(),
+  model.code = "",
   digits = 3,
   n.adapt = 1000,
   n.iter = 1e+05,
@@ -39,6 +40,11 @@ in the normal distribution estimation of \code{n}, as well as \code{a.m}, \code{
 \code{alpha.s.m}, \code{alpha.s.s}, \code{alpha.b.m}, \code{alpha.b.s}, \code{alpha.u.m}, \code{alpha.u.s},
 \code{alpha.v.m}, \code{alpha.v.s}. By default, this is an empty list, and all the mean are set to \code{0}, and 
 \code{alpha.n.s = alpha.a.s = 0.16}, and \code{alpha.s.s = alpha.b.s = alpha.u.s = alpha.v.s = 0.25}.}
+
+\item{model.code}{a string representation of the model code; each line should be separated. Default to constructing 
+model code using the \code{model.meta.ic} function with the parameters that are inputted to this function. This 
+parameter is only necessary if user wishes to make functional changes to the model code, such as changing the
+probability distributions of the parameters. Default to empty string.}
 
 \item{digits}{a positive integer specifying the digits after the decimal point for 
 the effect size estimates. The default is \code{3}.}
