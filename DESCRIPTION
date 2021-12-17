@@ -31,4 +31,5 @@ RoxygenNote: 7.1.2
 RdMacros: Rdpack
 Encoding: UTF-8
 LazyData: true
-
+Suggests: knitr
+VignetteBuilder: knitr
