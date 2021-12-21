@@ -27,4 +27,3 @@ plt.density(obj = out.meta.ic)
 plt.acf(obj = out.meta.ic)
 
 plt.forest(data = epidural_ic, obj = out.meta.ic)
-plt.forest(data = epidural_c, obj = out.study, obj2 = out.meta.c)

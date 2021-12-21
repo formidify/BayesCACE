@@ -169,6 +169,5 @@ else {
              xlab="Nocompliance Rates", ...)
 }
   
-  invisible()
   }
 

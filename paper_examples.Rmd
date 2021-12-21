@@ -146,11 +146,3 @@ The summary estimate based on the model `cace.meta.ic()` is automatically added 
 The 95% credible interval of the summary $\theta^{\text{CACE}}$ covers zero, indicating a non-significant complier average causal effect estimate for using epidural analgesia in labor on the risk of cesarean section for the meta-analysis with 27 trials. 
 For a study with incomplete data on compliance status, a dashed horizontal line in the forest plot is used to represent the posterior 95% credible interval of $\theta^\text{CACE}_i$ from the Bayesian hierarchical model fit. 
 The study-specific $\theta^{\text{CACE}}_i$ vary from negative to positive in individual studies, while most of the 95\% credible intervals cover zero. As the $\theta^\text{CACE}_i$ for a trial without complete compliance data is not estimable using only data from that single trial, dashed lines tend to have longer credible intervals than those with complete data (solid lines). 
-
-
-```{r}
-plt.forest(data = epidural_c, obj = out.study, obj2 = out.meta.c)
-```
-The function `cace.study()` can estimate CACE separately for an individual trial as long as it has complete compliance data. In that case, users can choose to generate a forest plot $\theta^\text{CACE}_i$ for each individual study based on separate analyses.
-The pooled estimate of $\theta^\text{CACE}$ and its 95% credible interval or confidence interval (the diamond in the plot) can be either from the Bayesian hierarchical model (the `cace.meta.c()` function) or from the two-step approach `cace.study()` function with the argument `two.step = TRUE`. The above code is an example of how to create such a plot. 
-If `obj` contains the two-step meta-analysis result, the argument `obj2` is optional and is included if users want to report the summary CACE estimate based on the Bayesian hierarchical model `cace.meta.ic()`. 

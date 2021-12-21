@@ -41,8 +41,7 @@ plt.forest <-
     else if (class(obj$smry)[1] == "list"){
       outcacei <- obj$CACE
       if (nrow(outcacei) == 1) stop("forestplot cannot be made for a single study")
-      if (is.null(obj$meta)) stop("the two-step method did not run on cace.sudy \n
-                                 please input the object obtained from 'cace.meta.c' as obj2 \n") 
+
       x <- cbind(obj$meta$beta, obj$meta$beta, obj$meta$ci.lb, obj$meta$ci.ub)
       row.names(x) <-  "CACE"
       colnames(x) <-  c("Mean", "50%", "2.5%", "97.5%")
@@ -133,6 +132,5 @@ plt.forest <-
       ) 
     }
     
-    invisible()
 }
 

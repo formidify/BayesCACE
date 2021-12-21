@@ -34,7 +34,7 @@ and the shape and rate parameters are default to \code{2}.}
 It returns a model string
 }
 \description{
-This function generates the model code for meta-analysis 
+This function generates part of the model code for meta-analysis 
 when the dataset has complete compliance information for all studies, 
 as described in Section 2.2, "the Bayesian hierarchical model" of the package manuscript.
 This function will be called internally if user uses the \code{cace.meta.c} function.
